@@ -157,8 +157,8 @@ def modify_password():
 @login_required
 def change_user_password():
   username=request.form.get('username')
-  manager_password=request.form.get('manager-password')
-  user_password=request.form.get('user-password')
+  manager_password=request.form.get('mpassword')
+  user_password=request.form.get('upassword')
 
   print username, manager_password, user_password,session['user']['username']
   _is_ok, _errors = User.validate_change_password(username, user_password , \
