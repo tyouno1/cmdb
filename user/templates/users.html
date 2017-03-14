@@ -1,0 +1,400 @@
+{% extends "layout.html" %}
+{% block title %}用户管理{% endblock %}
+{% block link %}
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='bootstrap-slider/css/bootstrap-slider.min.css')}}"/>
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css')}}"/>
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='bootstrap-sweetalert/dist/sweetalert.css')}}"/>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='DataTables-1.10.12/media/css/jquery.dataTables.min.css') }}"/>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootstrapvalidator-0.4.5/dist/css/bootstrapValidator.min.css') }}"/>
+{% endblock %}
+{%block nav_user%}active{% endblock %}
+{% block main %}
+{% for msg in get_flashed_messages() %}
+  <span>{{msg}}</span>
+{% endfor  %}
+
+<!-- <a class="btn btn-default" href='/user/create/'>添加用户</a> -->
+<button type="button" class="btn btn-default" data-toggle="modal" data-target="#dialog" data-titile="添加用户" data-btn-txt="添加" data-url="/user/create/">添加用户</button>
+<br/><br/>
+<table class="table table-bordered table-striped table-hover table-condensed" >
+  <thead>
+    <tr>
+      <th>用户名</th>
+      <th>密码</th>
+      <th>年龄</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for user in user_list %}
+      <tr>
+      <td>{{ user['username'] }}</td>
+      <td>******</td>
+      <td>{{ user['age'] }}</td>
+      <td>
+        <!--
+        <a href="/user/modify/?username={{user['username']}}">修改</a>
+        <a href="/user/delete/?username={{user['username']}}" id ="delete-user">删除</a>
+        -->
+        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#dialog" data-title="修改用户密码" data-btn-txt="修改" data-url="/user/modify-password/?username={{user['username']}}">修改密码</button>
+        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#dialog" data-title="修改用户" data-btn-txt="修改" data-url="/user/modify/?username={{user['username']}}">修改</button>
+        <button type="button" class="btn btn-xs btn-danger btn-delete" data-url="/user/delete/?username={{user['username']}}" data-username="{{user['username']}}">删除</button>
+      </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
+{% block dialog %}
+<!-- 修改密码框 -->
+<!--
+<div class="modal fade" id="update-password" tabindex="-1" role="dialog" aria-labelledby="update-password-label">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="update-password-label">密码修改</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="password-username" class="control-label">用户名</label>
+            <input type="text" class="form-control" id="password-username" readonly="readonly"/>
+          </div>
+          <div class="form-group">
+            <label for="password-manager-password" class="control-label">管理员密码</label>
+            <input type="password" class="form-control" id="password-manager-password"/>
+          </div>
+          <div class="form-group">
+            <label for="password-user-password" class="control-label">用户密码</label>
+            <input type="password" class="form-control" id="password-user-password"/>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="password-commit">更新密码</button>
+      </div>
+    </div>
+  </div>
+</div>
+-->
+<!-- 修改密码框结束 -->
+
+<!-- 添加用户框 -->
+<!--
+<div class="modal fade" id="create-user" tabindex="-1" role="dialog" aria-labelledby="create-user-label">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="create-user-label">添加用户</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="create-user-username" class="control-label">用户名</label>
+            <input type="text" class="form-control" id="create-user-username" />
+          </div>
+          <div class="form-group">
+            <label for="create-user-password" class="control-label">密码</label>
+            <input type="password" class="form-control" id="create-user-password"/>
+          </div>
+          <div class="form-group">
+            <label for="create-user-age" class="control-label">年龄</label>
+            <input type="text" class="form-control" id="create-user-age"/>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="create-commit">添加</button>
+      </div>
+    </div>
+  </div>
+</div>
+-->
+<!-- 添加用户框结束 -->
+
+<!-- 修改用户框 -->
+<!--
+<div class="modal fade" id="update-user" tabindex="-1" role="dialog" aria-labelledby="update-user-label">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="update-user-label">修改用户</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="update-user-username" class="control-label">用户名</label>
+            <input type="text" class="form-control" id="update-user-username" readonly="readonly"/>
+          </div>
+          <div class="form-group">
+            <label for="update-user-age" class="control-label">年龄</label>
+            <input type="text" class="form-control" id="update-user-age"/>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="update-commit">更新</button>
+      </div>
+    </div>
+  </div>
+</div>
+-->
+<!-- 修改用户框结束 -->
+
+<!-- 用户框(复用) -->
+<div class="modal fade" id="dialog" tabindex="-1" role="dialog" aria-labelledby="dialog-label">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="dialog-label">新建用户</h4>
+      </div>
+      <div class="modal-body">
+        新建用户
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary btn-form-submit">添加</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block script %}
+<script type="text/javascript" 
+        src="{{url_for('static',filename='bootstrap-slider/js/bootstrap-slider.min.js')}}"></script>
+<script type="text/javascript" 
+        src="{{url_for('static',filename='bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js')}}"></script>
+<script type="text/javascript" 
+        src="{{url_for('static',filename='bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js')}}"></script>
+<script type="text/javascript"
+        src="{{ url_for('static', filename='bootstrap-sweetalert/dist/sweetalert.min.js') }}"></script>
+<script type="text/javascript"
+        src="{{ url_for('static', filename='DataTables-1.10.12/media/js/jquery.dataTables.js') }}"></script>      
+<script type="text/javascript"
+        src="{{ url_for('static', filename='DataTables-1.10.12/media/js/dataTables.bootstrap.js') }}"></script>
+<script type="text/javascript"
+        src="{{ url_for('static', filename='bootstrapvalidator-0.4.5/dist/js/bootstrapValidator.min.js') }}"></script>
+{% endblock %}
+
+{% block js %}
+// 弹出框，初始化
+$(document).ready(function(){
+  $('table').DataTable({
+    language:{
+      "sProcessing": "处理中...",
+      "sLengthMenu": "显示_MENU_项结果",
+      "sZeroRecords": "没有匹配结果",
+      "sInfo":  "显示第_START_至_END_项结果, 共_TOTAL_项",
+      "sInfoEmpty": "显示第 0 至 0 项结果, 共 0 项",
+      "sInfoFiltered": "(由_MAX_项结果过滤)",
+      "sInfoPostFix": "",
+      "sSearch": "搜索",
+      "sUrl": "",
+      "sEmptyTable": "表中数据为空",
+      "sLoadingRecords": "载入中...",
+      "sInfoThousands": ",",
+      "oPaginate": {
+        "sFirst": "首页",
+        "sPrevious": "上页",
+        "sNext": "下页",
+        "sLast": "末页"
+      },
+      "oAria": {
+        "sSortAscending": ":以升序排列此列",
+        "sSortDescending": "以降序排列此列"
+      }
+    }
+  }); 
+
+  // 弹出框
+  $('#dialog').on('show.bs.modal', function(event){
+    //修正时间控件的BUG,点击时间控件会触发这个event,但是event为空
+    if (!event.relatedTarget) {return;}
+    var button = $(event.relatedTarget);
+    var title = button.data('title');
+    var btn_txt = button.data('btn-txt');
+    var url = button.data('url');
+    var that = this;
+    // 替换文字
+    $(that).find('.modal-title').text(title);
+    $(that).find('.btn-form-submit').text(btn_txt);
+    console.log(url);
+    /*
+    $.get(url, {}, function(result){
+      $(that).find('.modal-body').html(result)     
+    });
+    */
+    // 将请求的内容放入指定的标签中
+    // load函数使用的是GET请求
+    $(that).find('.modal-body').load(url)
+  });
+  // 提交
+  $('.btn-form-submit').on('click', function(){
+    var _form = $('#dialog').find('form');
+    // 验证是否符合validate的条件
+    var bootstrapValidator = $(_form).data('bootstrapValidator');
+    bootstrapValidator.validate();
+    // 如果不符合就直接return
+    if (!bootstrapValidator.isValid()) {return;}
+    url=_form.attr('action');
+    //params=_form.serialize();
+    //console.log(_form.attr('action'));
+    //console.log(_form.serialize());
+    //console.log(_form.serializeArray());
+    $.post(url, _form.serializeArray(), function(result){
+      if(result['is_ok']) {
+        //alert(result['success']);
+        //$('dialog').modal('hide');
+        //window.location.reload();
+        swal({
+            title: "<small>" + result['success'] + "</small>",
+            text:  "",
+            type: "success",
+            showCancelButton: false,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "确定",
+            cancelButtonText: "关闭",
+            closeOnConfirm: true,
+            closeOnCancel: false,
+            html: true
+          },
+          function(isConfirm){
+            window.location.reload();
+          }
+        );
+      }else{
+        var errors = [];
+        for (var key in result['errors']){
+          errors.push(result['errors'][key]);
+        }
+        //alert(errors.join('\n'));
+        swal({
+            title: '错误信息',
+            text: errors.join('\n'),
+            type: "error",
+            showCancelButton: false,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "确定",
+            cancelButtonText: "关闭",
+            closeOnConfirm: true,
+            closeOnCancel: false
+          },
+          function(isConfirm){
+          
+          }
+        );
+      }
+    }, 'json');
+  });
+  
+  // 是否删除用户
+  $('.btn-delete').on('click',function(){
+    var that = this;
+    var username = jQuery(that).data('username');
+    var url = jQuery(that).data('url');
+    swal({
+        title:"确定删除用户" + username,
+        text: "",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "确定",
+        cancelButtonText: "关闭",
+        closeOnConfirm: true,
+        colseOnCancel: true
+      },
+      function(isConfirm){
+        if(isConfirm){
+          window.location.replace(url);
+        }
+      }
+    );
+  });
+  
+});
+
+
+/*
+// 更新密码框弹出，初始化
+$('#update-password').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget);
+  var username = button.data('username');
+  //var modal = $(this);
+  $('#password-username').val(username);
+}); 
+
+// 更新密码
+$('#password-commit').on('click', function(){
+  var params = {};
+  params['username'] = $('#password-username').val();
+  params['manager-password'] = $('#password-manager-password').val();
+  params['user-password'] = $('#password-user-password').val();
+  $.post('/user/change-password/', params, function(data){
+    if (data['is_ok']){
+      alert('更新成功');
+      $('#update-password').modal('hide');
+      //window.location.replace('/users/')
+      window.location.reload()
+    }else{
+      alert(data['error']);
+    }
+  },'json');
+});
+
+// 添加用户框弹出，初始化
+$('#create-user').on('show.bs.modal', function(event){
+  $('#create-user-username').val('');
+  $('#create-user-password').val('');
+  $('#create-user-age').val('');
+});
+
+// 添加用户提交
+$('#create-commit').on('click', function(){
+  var params = {};
+  params['username'] = $('#create-user-username').val();
+  params['password'] = $('#create-user-password').val();
+  params['age'] = $('#create-user-age').val();
+  $.post('/user/add/', params, function(data){
+    if (data['is_ok']){
+      alert('创建成功');
+      $('#create-user').modal('hide');
+      //window.location.replace('/users/')
+      window.location.reload()
+    }else{
+      alert(data['error']);
+    }
+  },'json');
+});
+
+// 修改框弹出，初始化
+$('#update-user').on('show.bs.modal', function(event){
+  var button = $(event.relatedTarget);
+  $('#update-user-username').val(button.data('username'));
+  $('#update-user-age').val(button.data('age'));
+});
+
+// 修改用户提交
+$('#update-commit').on('click', function(){
+  var params = {};
+  params['username'] = $('#update-user-username').val();
+  params['age'] = $('#update-user-age').val();
+  $.post('/user/update/', params, function(data){
+    if (data['is_ok']){
+      alert('修改成功');
+      $('#update-user').modal('hide');
+      //window.location.replace('/users/')
+      window.location.reload()
+    }else{
+      alert(data['error']);
+    }
+  },'json');
+});
+*/
+{% endblock %}

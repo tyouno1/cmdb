@@ -1,0 +1,76 @@
+<form class="form-horizontal" id='create-user'action="/user/add/" method="post">
+  <div class="form-group">
+    <label for="username" class="col-md-3 control-label">用户名:</label>
+    <div class="col-md-5">
+      <input type="text" class="form-control" name="username" />
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="password" class="col-md-3 control-label">密码:</label>
+    <div class="col-md-5">
+      <input type="password" class="form-control" name="password"/>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="age" class="col-md-3 control-label">年龄:</label>
+    <div class="col-md-5">
+      <input type="text" class="form-control" name="age"/>
+    </div>
+  </div>
+</form>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('#create-user').bootstrapValidator({
+      message: 'This value is not valid',
+      feedbackIcons: {
+        valid: 'glyphicon glyphicon-ok',
+        invalid: 'glyphicon glyphicon-remove',
+        validating: 'glyphicon glyphicon-refresh'
+      },
+      fields: {
+        username: {
+          message: 'This username is not valid',
+          validators: {
+            notEmpty: {
+              message: '用户名不能为空'
+            },
+            stringLength: {
+              min:6,
+              max:20,
+              message: '用户名必须大于6个字符,并且小于20个字符'
+            }
+          }
+        },
+        /*
+        password: {
+          validators: {
+            message: 'This password is not valid',
+            notEmpty: {
+              message: "密码不能为空'
+            },
+            stringLength: {
+              min:6,
+              max:32,
+              message: '密码必须大于6个字符,并且小于32个字符'
+            }
+          }
+        },
+        */
+        age: {
+          validators: {
+            notEmpty: {
+              message: '年龄不能为空'
+            },
+            between: {
+              min: 0,
+              max: 100,
+              message: '年龄必须为0到100岁'
+            }
+          }
+        }
+      }
+    });
+  });
+</script>

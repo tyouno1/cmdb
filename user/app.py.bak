@@ -1,0 +1,35 @@
+#encoding: utf-8
+
+from flask import Flask,render_template,request
+import loganalysis
+import user
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+  return render_template('login.html')
+
+@app.route('/logs/')
+def logs():
+  logfile='/tmp/nginx-log/example.log'
+  topn = request.args.get('topn',10)
+  topn = int(topn) if str(topn).isdigit() else 10
+  rt_list = loganalysis.loganalysis(logfile,topn) 
+  return render_template('logs.html',rt_list=rt_list, title='topn log')
+
+@app.route('/login/',methods=['POST','GET'])
+def login():
+  #request.args ---> GET
+  #request.form ---> POST
+  params = request.args if request.method == 'GET' else request.form
+  username = params.get('username','')
+  password = params.get('password','')
+  
+  if user.validate_login(username, password):
+    return '登录成功'
+  else:
+    return '登录失败'
+
+if __name__ == '__main__':
+  app.run(host='0.0.0.0', port=9001,debug=True)

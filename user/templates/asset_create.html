@@ -1,0 +1,153 @@
+<form class="form-horizontal" id='create-asset'  action="/asset/add/" method="post">
+  <div class="form-group">
+    <label for="sn" class="col-md-3 control-label">SN编号:</label>
+    <div class="col-md-5">
+      <input type="text" class="form-control" name="sn"/>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="ip" class="col-md-3 control-label">IP:</label>
+    <div class="col-md-5">
+      <input type="text" class="form-control" name="ip"/>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="hostname" class="col-md-3 control-label">主机名:</label>
+    <div class="col-md-5">
+      <input type="text" class="form-control" name="hostname"/>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="os" class="col-md-3 control-label">操作系统:</label>
+    <div class="col-md-5">
+      <input type="text" class="form-control" name="os"/>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="cpu" class="col-md-3 control-label">CPU(核数):</label>
+    <div class="col-md-5">
+      <input type="text" class="form-control" id="cpu" name="cpu" data-slider-id="slider-cpu" data-slider-min="2" data-slider-max="64" data-slider-step="2" data-slider-value="2"/>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="ram" class="col-md-3 control-label">内存(G):</label>
+    <div class="col-md-5">
+      <input type="text" class="form-control" id="ram" name="ram" data-slider-id="slider-ram" data-slider-min="2" data-slider-max="512" data-slider-step="1" data-slider-value="4"/>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="disk" class="col-md-3 control-label">硬盘(G):</label>
+    <div class="col-md-5">
+      <input type="text" class="form-control" id="disk" name="disk" data-slider-id="slider-disk" data-slider-min="20" data-slider-max="2048" data-slider-step="10" data-slider-value="50"/>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="idc_id" class="col-md-3 control-label">机房:</label>
+    <div class="col-md-5">
+      <select name="idc_id" class="form-control">
+        {% for idc in idcs %}
+          <option value="{{idc['id']}}">{{idc['name']}}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="admin" class="col-md-3 control-label">使用人:</label>
+    <div class="col-md-5">
+      <input type="text" class="form-control" name="admin"/>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="business" class="col-md-3 control-label">业务:</label>
+    <div class="col-md-5">
+      <input type="text" class="form-control" name="business"/>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="purchase_date" class="col-md-3 control-label">采购日期:</label>
+    <div class="col-md-5">
+      <input type="text" class="form-control" id="purchase_date" name="purchase_date"/>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="warranty" class="col-md-3 control-label">保修时间:</label>
+    <div class="col-md-5">
+      <input type="text" class="form-control" name="warranty"/>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="vendor" class="col-md-3 control-label">供应商:</label>
+    <div class="col-md-5">
+      <input type="text" class="form-control" name="vendor"/>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="model" class="col-md-3 control-label">型号:</label>
+    <div class="col-md-5">
+      <input type="text" class="form-control" name="model"/>
+    </div>
+  </div>
+</form>
+<script type="text/javascript">
+  $(document).ready(function(){
+    // CPU
+    $('#cpu').slider({
+      formatter: function(value){
+        return 'CPU核数: ' + value;
+      }
+    });        
+    // RAM
+    $('#ram').slider({
+      formatter: function(value){
+        return '内存: ' + value + 'G';
+      }
+    });        
+    // DISK
+    $('#disk').slider({
+      formatter: function(value){
+        return '硬盘: ' + value + 'G';
+      }
+    });        
+    // purchase date
+    $('#purchase_date').datetimepicker({
+      language: 'zh-CN',
+      minView: 2,
+      format: 'yyyy-mm-dd'
+    });
+    $('#create-asset').bootstrapValidator({
+      message: 'This value is not valid',
+      feedbackIcons: {
+        valid: 'glyphicon glyphicon-ok',
+        invalid: 'glyphicon glyphicon-remove',
+        validating: 'glyphicon glyphicon-refresh'
+      },
+      fields: {
+        sn: {
+          message: 'This username is not valid',
+          validators: {
+            notEmpty: {
+              message: 'sn编号不能为空'
+            },
+            stringLength: {
+              min:10,
+              max:64,
+              message: 'sn编号必须大于10个字符,并且小于64个字符'
+            }
+          }
+        },
+        warranty: {
+          validators: {
+            notEmpty: {
+              message: '保修时间不能为空'
+            },
+            between: {
+              min: 1,
+              max: 5,
+              message: '报修时间必须为1到5年'
+            }
+          }
+        }
+      }
+    })
+  });
+</script>

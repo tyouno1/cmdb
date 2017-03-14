@@ -1,0 +1,123 @@
+<form class="form-horizontal"  action="/asset/update/" method="post">
+  <div class="form-group">
+    <label for="sn" class="col-md-3 control-label">SN编号:</label>
+    <div class="col-md-5">
+      <input type="text" class="form-control" name="sn" value="{{asset['sn']}}" readonly="readonly"/>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="ip" class="col-md-3 control-label">IP:</label>
+    <div class="col-md-5">
+      <input type="text" class="form-control" name="ip" value="{{asset['ip']}}" />
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="hostname" class="col-md-3 control-label">主机名:</label>
+    <div class="col-md-5">
+      <input type="text" class="form-control" name="hostname" value="{{asset['hostname']}}" />
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="os" class="col-md-3 control-label">操作系统:</label>
+    <div class="col-md-5">
+      <input type="text" class="form-control" name="os" value="{{asset['os']}}"/>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="cpu" class="col-md-3 control-label">CPU(核数):</label>
+    <div class="col-md-5">
+      <input type="text" class="form-control" id="cpu" name="cpu" data-slider-id="slider-cpu" data-slider-min="2" data-slider-max="64" data-slider-step="2"  data-slider-value="{{asset['cpu']}}"/>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="ram" class="col-md-3 control-label">内存(G):</label>
+    <div class="col-md-5">
+      <input type="text" class="form-control" id="ram" name="ram" data-slider-id="slider-ram" data-slider-min="2" data-slider-max="512" data-slider-step="1" data-slider-value="{{asset['ram']}}"/>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="disk" class="col-md-3 control-label">硬盘(G):</label>
+    <div class="col-md-5">
+      <input type="text" class="form-control" id="disk" name="disk" data-slider-id="slider-disk" data-slider-min="20" data-slider-max="2048" data-slider-step="10" data-slider-value="{{asset['disk']}}"/>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="idc_id" class="col-md-3 control-label">机房:</label>
+    <div class="col-md-5">
+      <select name="idc_id" class="form-control">
+        {% for _key in idcs %}
+          <option value="{{_key['id']}}"
+            {% if _key['id'] == asset['idc_id'] %}
+            selected="selected"
+            {% endif %}
+            >{{_key['name']}}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="admin" class="col-md-3 control-label">使用人:</label>
+    <div class="col-md-5">
+      <input type="text" class="form-control" name="admin" value="{{asset['admin']}}" />
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="business" class="col-md-3 control-label">业务:</label>
+    <div class="col-md-5">
+      <input type="text" class="form-control" name="business" value="{{asset['business']}}"/>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="purchase_date" class="col-md-3 control-label">采购日期:</label>
+    <div class="col-md-5">
+      <input type="text" class="form-control" id="purchase_date" name="purchase_date" value="{{asset['purchase_date']}}" />
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="warranty" class="col-md-3 control-label">保修时间:</label>
+    <div class="col-md-5">
+      <input type="text" class="form-control" name="warranty" value="{{asset['warranty']}}"/>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="vendor" class="col-md-3 control-label">供应商:</label>
+    <div class="col-md-5">
+      <input type="text" class="form-control" name="vendor" value="{{asset['vendor']}}"/>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="model" class="col-md-3 control-label">型号:</label>
+    <div class="col-md-5">
+      <input type="text" class="form-control" name="model" value="{{asset['model']}}"/>
+    </div>
+  </div>
+</form>
+<script type="text/javascript">
+  $(document).ready(function(){
+    // CPU
+    $('#cpu').slider({
+      formatter: function(value){
+        return 'CPU核数: ' + value;
+      }
+    });        
+    // RAM
+    $('#ram').slider({
+      formatter: function(value){
+        return '内存: ' + value + 'G';
+      }
+    });        
+    // DISK
+    $('#disk').slider({
+      formatter: function(value){
+        return '硬盘: ' + value + 'G';
+      }
+    });        
+    // purchase date
+    $('#purchase_date').datetimepicker({
+      language: 'zh-CN',
+      minView: 2,
+      format: 'yyyy-mm-dd'
+    })
+  });
+</script>

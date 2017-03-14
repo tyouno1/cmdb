@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>TOP 10 访问日志</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->    
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"/> 
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='dashboard.css')}}" />
+  </head>
+  <body>
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">CMDB</a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a>欢迎 {{session.get('user',{}).get('username','')}}</a></li>
+          <li><a href="/logout/">退出登录</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li><a href="/users/">用户管理<span></span></a></li>
+            <li class="active"><a href="/logs/">访问日志分析<span></span></a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <form class="form-inline" action="/uploadlogs/" method="post" enctype="multipart/form-data">
+            <div class="col-md-3">
+              <a class="btn btn-link" href="/logs/?topn=10">Top 10</a> 
+              <a class="btn btn-link" href="/logs/?topn=25">Top 25</a> 
+              <a class="btn btn-link" href="/logs/?topn=50">Top 50</a> 
+            </div>
+            <div class="col-md-9">
+              <div class="input-group">
+                <input type="file" name="logfile" class="form-control">
+                <span class="input-group-btn"> 
+                  <button class="btn btn-default" type="submit">上传文件</button> 
+                </span>
+              </div>
+            </div>
+          </form>
+          <br/><br/>
+          <table class="table table-bordered table-striped table-hover table-condensed" >
+            <thead>
+              <tr>
+                <th>IP</th>
+                <th>URL</th>
+                <th>CODE</th>
+                <th>COUNT</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for node in rt_list %}
+                <tr>
+                <td>{{ node[0][0] }}</td>
+                <td>{{ node[0][1] }}</td>
+                <td>{{ node[0][2] }}</td>
+                <td>{{ node[1] }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

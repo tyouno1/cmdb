@@ -1,0 +1,227 @@
+{% extends "layout.html" %}
+{% block title %}资产管理页面{% endblock %}
+{% block link %}
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='bootstrap-slider/css/bootstrap-slider.min.css')}}"/>
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css')}}"/>
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='bootstrap-sweetalert/dist/sweetalert.css')}}"/>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='DataTables-1.10.12/media/css/jquery.dataTables.min.css') }}"/>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootstrapvalidator-0.4.5/dist/css/bootstrapValidator.min.css') }}"/>
+{% endblock %}
+{%block nav_asset %}active{% endblock %}
+{% block main %}
+<button type="button" class="btn btn-default" data-toggle="modal" data-target="#dialog" data-titile="添加资产" data-btn-txt="添加" data-url="/asset/create/">添加资产</button>
+<br/><br/>
+<table class="table table-bordered table-striped table-hover table-condensed" >
+  <thead>
+    <tr>
+      <th>SN</th>
+      <th>IP(主机名)</th>
+      <th>操作系统</th>
+      <th>CPU/内存/硬盘</th>
+      <th>机房</th>
+      <th>使用者(业务)</th>
+      <th>采购时间(报修时长)</th>
+      <th>型号(供应商)</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for asset in assets %}
+      <tr>
+      <td>{{ asset['sn'] }}</td>
+      <td>{{ asset['ip'] }}({{ asset['hostname'] }})</td>
+      <td>{{ asset['os'] }}</td>
+      <td>
+        <ul>
+          <li>CPU:{{asset['cpu']}}核</li>
+          <li>内存:{{asset['ram']}}G</li>
+          <li>硬盘:{{asset['disk']}}G</li>
+        </ul>
+      </td>
+      {% for _key in idcs %}
+      {% if _key['id'] == asset['idc_id'] %}
+      <td>{{ _key.get('name') }}</td>
+      {% endif %}
+      {% endfor %}
+      <td>{{ asset['admin'] }}({{ asset['business'] }})</td>
+      <td>{{ asset['purchase_date'] }}({{ asset['warranty']}}年)</td>
+      <td>{{ asset['model'] }}({{ asset['vendor'] }})</td>
+      <td>
+        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#dialog" data-title="修改资产" data-btn-txt="修改" data-url="/asset/modify/?id={{asset['id']}}" >修改</button>
+        <!--<a class="btn btn-xs btn-danger" href="/asset/delete/?id={{asset['id']}}"  onclick="return confirm('确定删除吗?');">删除</a> -->
+        <button type="button" class="btn btn-xs btn-danger btn-delete" data-url="/asset/delete/?id={{asset['id']}}" data-text="{{asset['hostname']}}">删除</button>
+      </td>
+      </tr>
+    {% endfor %}
+      </tbody>
+    </table>
+{% endblock %}
+{% block dialog %}
+<!-- 添加用户框 -->
+<div class="modal fade" id="dialog" tabindex="-1" role="dialog" aria-labelledby="dialog-label">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="dialog-label">新建资产</h4>
+      </div>
+      <div class="modal-body">
+        新建资产
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary btn-form-submit">添加</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block script %}
+<script type="text/javascript" 
+        src="{{url_for('static',filename='bootstrap-slider/js/bootstrap-slider.min.js')}}"></script>
+<script type="text/javascript" 
+        src="{{url_for('static',filename='bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js')}}"></script>
+<script type="text/javascript" 
+        src="{{url_for('static',filename='bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js')}}"></script>
+<script type="text/javascript"
+        src="{{ url_for('static', filename='bootstrap-sweetalert/dist/sweetalert.min.js') }}"></script>
+<script type="text/javascript"
+        src="{{ url_for('static', filename='DataTables-1.10.12/media/js/jquery.dataTables.js') }}"></script>      
+<script type="text/javascript"
+        src="{{ url_for('static', filename='DataTables-1.10.12/media/js/dataTables.bootstrap.js') }}"></script>
+<script type="text/javascript"
+        src="{{ url_for('static', filename='bootstrapvalidator-0.4.5/dist/js/bootstrapValidator.min.js') }}"></script>
+
+{% endblock %}
+{% block js %}
+// 弹出框，初始化
+$(document).ready(function(){
+  $('table').DataTable({
+    language:{
+      "sProcessing": "处理中...",
+      "sLengthMenu": "显示_MENU_项结果",
+      "sZeroRecords": "没有匹配结果",
+      "sInfo":  "显示第_START_至_END_项结果, 共_TOTAL_项",
+      "sInfoEmpty": "显示第 0 至 0 项结果, 共 0 项",
+      "sInfoFiltered": "(由_MAX_项结果过滤)",
+      "sInfoPostFix": "",
+      "sSearch": "搜索",
+      "sUrl": "",
+      "sEmptyTable": "表中数据为空",
+      "sLoadingRecords": "载入中...",
+      "sInfoThousands": ",",
+      "oPaginate": {
+        "sFirst": "首页",
+        "sPrevious": "上页",
+        "sNext": "下页",
+        "sLast": "末页"
+      },
+      "oAria": {
+        "sSortAscending": ":以升序排列此列",
+        "sSortDescending": "以降序排列此列"
+      }
+    }
+  });
+  $('#dialog').on('show.bs.modal', function(event){
+    //修正时间控件的BUG,点击时间控件会触发这个event,但是event为空
+    if (!event.relatedTarget) {return;}
+    var button = $(event.relatedTarget);
+    var title = button.data('title');
+    var btn_txt = button.data('btn-txt');
+    var url = button.data('url');
+    var that = this;
+    // 替换文字
+    $(that).find('.modal-title').text(title);
+    $(that).find('.btn-form-submit').text(btn_txt);
+    console.log(url);
+    /*
+    $.get(url, {}, function(result){
+      $(that).find('.modal-body').html(result)     
+    });
+    */
+    // 将请求的内容放入指定的标签中
+    // load函数使用的是GET请求
+    $(that).find('.modal-body').load(url)
+  });
+  // 提交
+  $('.btn-form-submit').on('click', function(){
+    var _form = $('#dialog').find('form');
+    // 验证是否符合validate的条件
+    var bootstrapValidator = $(_form).data('bootstrapValidator');
+    bootstrapValidator.validate();
+    // 如果不符合就直接return
+    if (!bootstrapValidator.isValid()) {return;}
+    url=_form.attr('action');
+    //params=_form.serialize();
+    //console.log(_form.attr('action'));
+    //console.log(_form.serialize());
+    //console.log(_form.serializeArray());
+    $.post(url, _form.serializeArray(), function(result){
+      if(result['is_ok']) {
+        //alert(result['success']);
+        //$('dialog').modal('hide');
+        //window.location.reload();
+        swal({
+            title: "<small>" + result['success'] + "</small>",
+            text:  "",
+            type: "success",
+            showCancelButton: false,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "确定",
+            cancelButtonText: "关闭",
+            closeOnConfirm: true,
+            closeOnCancel: false,
+            html: true
+          },
+          function(isConfirm){
+            window.location.reload();
+          }
+        );
+      }else{
+        var errors = [];
+        for (var key in result['errors']){
+          errors.push(result['errors'][key]);
+        }
+        //alert(errors.join('\n'));
+        swal({
+            title: '错误信息',
+            text: errors.join('\n'),
+            type: "error",
+            showCancelButton: false,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "确定",
+            cancelButtonText: "关闭",
+            closeOnConfirm: true,
+            closeOnCancel: false
+          },
+          function(isConfirm){
+          
+          }
+        );
+      }
+    }, 'json');
+  });
+  jQuery('.btn-delete').on('click',function(){
+    var that = this;
+    var hostname = jQuery(that).data('text');
+    var url = jQuery(that).data('url');
+    swal({
+        title:"确定删除资产" + hostname,
+        text: "",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "确定",
+        cancelButtonText: "关闭",
+        closeOnConfirm: true,
+        colseOnCancel: true
+      },
+      function(isConfirm){
+        if(isConfirm){
+          window.location.replace(url);
+        }
+      }
+    );
+  });
+});
+{% endblock %}

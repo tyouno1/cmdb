@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>TOP 10 访问日志</title>
+  </head>
+  <body>
+    <a href="/logs/?topn=10">TOP 10</a>
+    <a href="/logs/?topn=25">TOP 25</a>
+    <a href="/logs/?topn=50">TOP 50</a>   
+    <table border="1px">
+      <thead>
+        <tr>
+          <th>IP</th>
+          <th>URL</th>
+          <th>CODE</th>
+          <th>COUNT</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for node in rt_list %}
+          <tr>
+          <td>{{ node[0][0] }}</td>
+          <td>{{ node[0][1] }}</td>
+          <td>{{ node[0][2] }}</td>
+          <td>{{ node[1] }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>
