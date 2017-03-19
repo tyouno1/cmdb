@@ -172,5 +172,29 @@ class User(object):
     _args = (upassword,username)
     MySQLConnection.execute_sql(_sql, _args, False)
 
+class Performs(object):
+  @classmethod
+  def add(cls, req):
+    _ip = req.get('ip')
+    _cpu = req.get('cpu')
+    _ram = req.get('ram')
+    _time = req.get('time')
+    _sql = 'insert into performs(ip, cpu, ram, time)values(%s, %s, %s, %s)';
+    MySQLConnection.execute_sql(_sql, (_ip, _cpu, _ram, _time),  False)
+
+  @classmethod
+  def get_list(cls, ip):
+    _sql = 'SELECT cpu, ram, time FROM performs WHERE ip=%s and time>=%s order by time asc'
+    _args = (ip, time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time() -60*60)))
+    _count , _rt_list = MySQLConnection.execute_sql(_sql, _args)
+    datetime_list = []
+    cpu_list = []
+    ram_list = []
+    for _cpu, _ram, _time in _rt_list:
+      cpu_list.append(_cpu)
+      ram_list.append(_ram)
+      datetime_list.append(_time.strftime('%H:%M:%S'))
+    return datetime_list, cpu_list, ram_list
+
 if __name__ == '__main__':
   pass

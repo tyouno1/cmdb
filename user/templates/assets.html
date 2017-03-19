@@ -47,6 +47,8 @@
       <td>{{ asset['purchase_date'] }}({{ asset['warranty']}}年)</td>
       <td>{{ asset['model'] }}({{ asset['vendor'] }})</td>
       <td>
+        <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#cmd-dialog" data-title="命令执行" data-btn-txt="执行" data-url="/asset/cmd/?id={{asset['id']}}" >命令</button>
+        <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#dialog" data-title="查看监控" data-btn-txt="关闭" data-url="/asset/cmd/?id={{asset['id']}}" >监控</button>
         <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#dialog" data-title="修改资产" data-btn-txt="修改" data-url="/asset/modify/?id={{asset['id']}}" >修改</button>
         <!--<a class="btn btn-xs btn-danger" href="/asset/delete/?id={{asset['id']}}"  onclick="return confirm('确定删除吗?');">删除</a> -->
         <button type="button" class="btn btn-xs btn-danger btn-delete" data-url="/asset/delete/?id={{asset['id']}}" data-text="{{asset['hostname']}}">删除</button>

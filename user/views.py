@@ -239,6 +239,26 @@ def delete_asset():
   asset.delete(_id)
   return redirect('/assets/')
 
+@app.route('/asset/perform/')
+@login_required
+def perform_asset():
+  _id = request.args.get('id', '')
+  _asset = asset.get_by_id(_id)
+
+  datetime_list, cpu_list, ram_list = Performs.get_list(_asset['ip'])
+  return render_template('asseet_perform.html',datetime_list = json.dumps(datetime_list),
+                                               cpu_list = json.dumps(cpu_list), 
+                                               ram_list=json.dumps(ram_list))
+
+# 
+# curl -POST "192.168.137.101:9001/performs/" -H "Content-Type:application/json" -d '{"abc":1}'
+#
+@app.route('/performs/', methods=['POST'])
+def performs():
+  # 获取json数据
+  # Flask > 0.10 request.get_json() else request.json()
+  print request.get_json()
+  return json.dumps({"code":200, "text":"success"})
 
 #if __name__ == '__main__':
 #  app.run(host='0.0.0.0', port=9001,debug=True)
