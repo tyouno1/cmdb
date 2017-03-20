@@ -12,7 +12,7 @@ import loganalysis
 #import user
 #import userdb as user
 import asset
-from models import User
+from models import User, Performs, Command
 
 # 导入app
 # user 模块下的app变量(Flask对象)
@@ -232,6 +232,25 @@ def update_asset():
       asset.update(request.form)
   return json.dumps({'is_ok': _is_ok, 'errors': _errors,'success':'更新成功'})
 
+@app.route('/asset/cmd/')
+@login_required
+def cmd_asset():
+  _id = request.args.get('id','')
+  print _id
+  return render_template('asset_cmd.html',aid=_id)
+
+@app.route('/asset/cmd_execute/',methods=['POST'])
+@login_required
+def cmd_execute_asset():
+  _is_ok , _errors = Command.validate(request.form)
+  _id = request.form.get('id','')
+  _count, _asset = asset.get_by_id(_id)
+  _success = ''
+  if _is_ok:
+    _success = Command.execute(request.form,_asset[0])
+    print _success
+  return json.dumps({'is_ok':_is_ok, 'errors':_errors, 'success':_success})
+
 @app.route('/asset/delete/', methods=['GET'])
 @login_required
 def delete_asset():
@@ -243,10 +262,10 @@ def delete_asset():
 @login_required
 def perform_asset():
   _id = request.args.get('id', '')
-  _asset = asset.get_by_id(_id)
-
+  _count , _asset = asset.get_by_id(_id)
+  _asset = _asset[0]
   datetime_list, cpu_list, ram_list = Performs.get_list(_asset['ip'])
-  return render_template('asseet_perform.html',datetime_list = json.dumps(datetime_list),
+  return render_template('asset_perform.html',datetime_list = json.dumps(datetime_list),
                                                cpu_list = json.dumps(cpu_list), 
                                                ram_list=json.dumps(ram_list))
 
@@ -257,7 +276,7 @@ def perform_asset():
 def performs():
   # 获取json数据
   # Flask > 0.10 request.get_json() else request.json()
-  print request.get_json()
+  Performs.add(request.get_json())
   return json.dumps({"code":200, "text":"success"})
 
 #if __name__ == '__main__':

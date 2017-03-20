@@ -51,10 +51,10 @@ def collect():
 
 def send(msg):
   try:
-    _reponse = requets.post(SERVER_URL, data=json.dumps(msg), headers={"Content-Type":"application/json"})
+    _reponse = requests.post(SERVER_URL, data=json.dumps(msg), headers={"Content-Type":"application/json"})
     if not _reponse.ok:
       logger.error('error send msg %s', _msg)
-  except BaseExeception as e:
+  except BaseException as e:
     logger.error(traceback.format_exc())
 
 if __name__ == '__main__':
@@ -67,6 +67,6 @@ if __name__ == '__main__':
       _msg = collect()
       logger.debug(_msg)
       send(_msg)
-      time.sleep(60)
+      time.sleep(10)
     except BaseException as e:
       logger.error(traceback.format_exc())

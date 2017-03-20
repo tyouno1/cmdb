@@ -11,7 +11,7 @@
 {% block main %}
 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#dialog" data-titile="添加资产" data-btn-txt="添加" data-url="/asset/create/">添加资产</button>
 <br/><br/>
-<table class="table table-bordered table-striped table-hover table-condensed" >
+<table class="table table-bordered table-striped table-hover" >
   <thead>
     <tr>
       <th>SN</th>
@@ -48,7 +48,7 @@
       <td>{{ asset['model'] }}({{ asset['vendor'] }})</td>
       <td>
         <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#cmd-dialog" data-title="命令执行" data-btn-txt="执行" data-url="/asset/cmd/?id={{asset['id']}}" >命令</button>
-        <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#dialog" data-title="查看监控" data-btn-txt="关闭" data-url="/asset/cmd/?id={{asset['id']}}" >监控</button>
+        <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#dialog" data-title="查看监控" data-btn-txt="关闭" data-url="/asset/perform/?id={{asset['id']}}" >监控</button>
         <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#dialog" data-title="修改资产" data-btn-txt="修改" data-url="/asset/modify/?id={{asset['id']}}" >修改</button>
         <!--<a class="btn btn-xs btn-danger" href="/asset/delete/?id={{asset['id']}}"  onclick="return confirm('确定删除吗?');">删除</a> -->
         <button type="button" class="btn btn-xs btn-danger btn-delete" data-url="/asset/delete/?id={{asset['id']}}" data-text="{{asset['hostname']}}">删除</button>
@@ -77,6 +77,24 @@
     </div>
   </div>
 </div>
+<!-- 命令用户框 -->
+<div class="modal fade" id="cmd-dialog" tabindex="-1" role="dialog" aria-labelledby="dialog-label">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="dialog-label">新建资产</h4>
+      </div>
+      <div class="modal-body">
+        新建资产
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary btn-cmd-form-submit">添加</button>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
 {% block script %}
 <script type="text/javascript" 
@@ -93,6 +111,8 @@
         src="{{ url_for('static', filename='DataTables-1.10.12/media/js/dataTables.bootstrap.js') }}"></script>
 <script type="text/javascript"
         src="{{ url_for('static', filename='bootstrapvalidator-0.4.5/dist/js/bootstrapValidator.min.js') }}"></script>
+<script type="text/javascript"
+        src="{{ url_for('static', filename='Highcharts-4.2.5/js/highcharts.js') }}"></script>
 
 {% endblock %}
 {% block js %}
@@ -148,11 +168,13 @@ $(document).ready(function(){
   // 提交
   $('.btn-form-submit').on('click', function(){
     var _form = $('#dialog').find('form');
-    // 验证是否符合validate的条件
-    var bootstrapValidator = $(_form).data('bootstrapValidator');
-    bootstrapValidator.validate();
-    // 如果不符合就直接return
-    if (!bootstrapValidator.isValid()) {return;}
+    var bootstrapValidator = $(_form).data('bootstrapValdator');
+    if (bootstrapValidator) {
+      // 验证是否符合validate的条件
+      bootstrapValidator.validate();
+      // 如果不符合就直接return
+      if (!bootstrapValidator.isValid()) {return;}
+    }
     url=_form.attr('action');
     //params=_form.serialize();
     //console.log(_form.attr('action'));
@@ -203,6 +225,8 @@ $(document).ready(function(){
       }
     }, 'json');
   });
+
+  //删除资产
   jQuery('.btn-delete').on('click',function(){
     var that = this;
     var hostname = jQuery(that).data('text');
@@ -224,6 +248,50 @@ $(document).ready(function(){
         }
       }
     );
+  });
+  // 弹出命令框
+  $('#cmd-dialog').on('show.bs.modal', function(event){
+    //修正时间控件的BUG,点击时间控件会触发这个event,但是event为空
+    if (!event.relatedTarget) {return;}
+    var button = $(event.relatedTarget);
+    var title = button.data('title');
+    var btn_txt = button.data('btn-txt');
+    var url = button.data('url');
+    var that = this;
+    // 替换文字
+    $(that).find('.modal-title').text(title);
+    $(that).find('.btn-cmd-form-submit').text(btn_txt);
+    $(that).find('.modal-body').load(url)
+  });
+
+  // 提交
+  $('.btn-cmd-form-submit').on('click', function(){
+    var _form = $('#cmd-dialog').find('form');
+    $.post(_form.attr('action'), _form.serializeArray(), function(result){
+      if(result['is_ok']) {
+        _form.find('#cmds-output').val(result['success'])
+      }else{
+        var errors = [];
+        for (var key in result['errors']){
+          errors.push(result['errors'][key]);
+        }
+        //alert(errors.join('\n'));
+        swal({
+            title: '错误信息',
+            text: errors.join('\n'),
+            type: "error",
+            showCancelButton: false,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "确定",
+            cancelButtonText: "关闭",
+            closeOnConfirm: true,
+            closeOnCancel: false
+          },
+          function(isConfirm){
+          }
+        );
+      }
+    }, 'json');
   });
 });
 {% endblock %}

@@ -1,5 +1,7 @@
 #encoding:utf-8
 from dbutils_class import MySQLConnection
+import time
+import ssh
 #from dbutils import execute_fetch_sql , execute_commit_sql
 
 class User(object):
@@ -172,6 +174,15 @@ class User(object):
     _args = (upassword,username)
     MySQLConnection.execute_sql(_sql, _args, False)
 
+'''
+CREATE table performs(
+    id bigint primary key auto_increment,
+    ip varchar(128),
+    cpu float,
+    ram float,
+    time datetime
+)engine=innodb default charset=utf8;
+'''
 class Performs(object):
   @classmethod
   def add(cls, req):
@@ -186,6 +197,7 @@ class Performs(object):
   def get_list(cls, ip):
     _sql = 'SELECT cpu, ram, time FROM performs WHERE ip=%s and time>=%s order by time asc'
     _args = (ip, time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time() -60*60)))
+    print _args
     _count , _rt_list = MySQLConnection.execute_sql(_sql, _args)
     datetime_list = []
     cpu_list = []
@@ -195,6 +207,23 @@ class Performs(object):
       ram_list.append(_ram)
       datetime_list.append(_time.strftime('%H:%M:%S'))
     return datetime_list, cpu_list, ram_list
+
+class Command(object):
+  @classmethod
+  def validate(cls, req):
+    return True, {}
+
+  @classmethod
+  def execute(cls, req, asset):
+    _username = req.get('username', '')
+    _password = req.get('password', '')
+    _cmds = req.get('cmds','').splitlines()
+    _result = ssh.ssh_execute(asset['ip'], _username, _password, _cmds)
+    _echos = []
+    for _cmd , _outs, errs in _result:
+      _echos.append(_cmd)
+      _echos.append(''.join(_outs))
+    return '\n'.join(_echos)
 
 if __name__ == '__main__':
   pass

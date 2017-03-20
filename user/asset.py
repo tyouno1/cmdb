@@ -167,7 +167,10 @@ def update(asset):
     _args.append(asset.get(_column,''))
   _args.append(asset.get('id'))
 
+  print _args
   _sql ='UPDATE assets SET {values} WHERE id=%s'.format(values=','.join(_values))
+  print _values
+  print _sql
   _cnt, _rt_list = execute_commit_sql(_sql, _args)
   return _cnt, _rt_list
 
