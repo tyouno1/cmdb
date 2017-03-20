@@ -317,3 +317,178 @@ KeyboardInterrupt
 2017-03-20 01:52:51,714 __main__ [68] DEBUG {'ip': '192.168.137.101', 'ram': 93.62430807215961, 'cpu': 0.9000000000000057, 'time': '2017-03-20 01:52:51'}
 2017-03-20 01:52:51,721 requests.packages.urllib3.connectionpool [212] DEBUG Starting new HTTP connection (1): 192.168.137.101
 2017-03-20 01:52:51,772 requests.packages.urllib3.connectionpool [400] DEBUG http://192.168.137.101:9001 "POST /performs/ HTTP/1.1" 200 32
+2017-03-20 18:57:55,073 __main__ [68] DEBUG {'ip': '192.168.137.101', 'ram': 93.72386603480547, 'cpu': 0.7999999999999972, 'time': '2017-03-20 18:57:55'}
+2017-03-20 18:57:55,310 requests.packages.urllib3.connectionpool [212] DEBUG Starting new HTTP connection (1): 192.168.137.101
+2017-03-20 18:57:55,611 requests.packages.urllib3.connectionpool [400] DEBUG http://192.168.137.101:9001 "POST /performs/ HTTP/1.1" 200 32
+2017-03-20 18:58:06,134 __main__ [68] DEBUG {'ip': '192.168.137.101', 'ram': 93.34554577675122, 'cpu': 0.7999999999999972, 'time': '2017-03-20 18:58:06'}
+2017-03-20 18:58:06,136 requests.packages.urllib3.connectionpool [212] DEBUG Starting new HTTP connection (1): 192.168.137.101
+2017-03-20 18:58:06,199 requests.packages.urllib3.connectionpool [400] DEBUG http://192.168.137.101:9001 "POST /performs/ HTTP/1.1" 200 32
+2017-03-20 18:58:16,728 __main__ [68] DEBUG {'ip': '192.168.137.101', 'ram': 93.35510334116523, 'cpu': 0.7999999999999972, 'time': '2017-03-20 18:58:16'}
+2017-03-20 18:58:16,730 requests.packages.urllib3.connectionpool [212] DEBUG Starting new HTTP connection (1): 192.168.137.101
+2017-03-20 18:58:16,796 requests.packages.urllib3.connectionpool [400] DEBUG http://192.168.137.101:9001 "POST /performs/ HTTP/1.1" 200 32
+2017-03-20 18:58:27,321 __main__ [68] DEBUG {'ip': '192.168.137.101', 'ram': 93.44669666679941, 'cpu': 0.7999999999999972, 'time': '2017-03-20 18:58:27'}
+2017-03-20 18:58:27,323 requests.packages.urllib3.connectionpool [212] DEBUG Starting new HTTP connection (1): 192.168.137.101
+2017-03-20 18:58:27,398 requests.packages.urllib3.connectionpool [400] DEBUG http://192.168.137.101:9001 "POST /performs/ HTTP/1.1" 200 32
+2017-03-20 18:58:37,921 __main__ [68] DEBUG {'ip': '192.168.137.101', 'ram': 93.46501533192625, 'cpu': 0.7999999999999972, 'time': '2017-03-20 18:58:37'}
+2017-03-20 18:58:37,922 requests.packages.urllib3.connectionpool [212] DEBUG Starting new HTTP connection (1): 192.168.137.101
+2017-03-20 18:58:38,000 requests.packages.urllib3.connectionpool [400] DEBUG http://192.168.137.101:9001 "POST /performs/ HTTP/1.1" 200 32
+2017-03-20 18:58:48,528 __main__ [68] DEBUG {'ip': '192.168.137.101', 'ram': 93.48253753335192, 'cpu': 0.7999999999999972, 'time': '2017-03-20 18:58:48'}
+2017-03-20 18:58:48,532 requests.packages.urllib3.connectionpool [212] DEBUG Starting new HTTP connection (1): 192.168.137.101
+2017-03-20 18:58:48,560 requests.packages.urllib3.connectionpool [400] DEBUG http://192.168.137.101:9001 "POST /performs/ HTTP/1.1" 200 32
+2017-03-20 18:58:54,585 __main__ [72] ERROR Traceback (most recent call last):
+  File "agent.py", line 70, in <module>
+    time.sleep(10)
+KeyboardInterrupt
+
+2017-03-20 18:58:55,098 __main__ [68] DEBUG {'ip': '192.168.137.101', 'ram': 93.47536936004141, 'cpu': 0.7999999999999972, 'time': '2017-03-20 18:58:55'}
+2017-03-20 18:58:55,100 requests.packages.urllib3.connectionpool [212] DEBUG Starting new HTTP connection (1): 192.168.137.101
+2017-03-20 18:58:55,103 requests.packages.urllib3.connectionpool [400] DEBUG http://192.168.137.101:9001 "POST /performs/ HTTP/1.1" 200 32
+2017-03-20 18:58:55,573 __main__ [72] ERROR Traceback (most recent call last):
+  File "agent.py", line 70, in <module>
+    time.sleep(10)
+KeyboardInterrupt
+
+2017-03-20 18:58:55,764 __main__ [72] ERROR Traceback (most recent call last):
+  File "agent.py", line 67, in <module>
+    _msg = collect()
+  File "agent.py", line 47, in collect
+    _rt['cpu'] = collect_cpu()
+  File "agent.py", line 28, in collect_cpu
+    _cxt = execute_cmd(_cmd)
+  File "agent.py", line 17, in execute_cmd
+    _cxt = _fh.read()
+KeyboardInterrupt
+
+2017-03-20 18:58:55,903 __main__ [72] ERROR Traceback (most recent call last):
+  File "agent.py", line 67, in <module>
+    _msg = collect()
+  File "agent.py", line 47, in collect
+    _rt['cpu'] = collect_cpu()
+  File "agent.py", line 28, in collect_cpu
+    _cxt = execute_cmd(_cmd)
+  File "agent.py", line 17, in execute_cmd
+    _cxt = _fh.read()
+KeyboardInterrupt
+
+2017-03-20 18:58:56,038 __main__ [72] ERROR Traceback (most recent call last):
+  File "agent.py", line 67, in <module>
+    _msg = collect()
+  File "agent.py", line 47, in collect
+    _rt['cpu'] = collect_cpu()
+  File "agent.py", line 28, in collect_cpu
+    _cxt = execute_cmd(_cmd)
+  File "agent.py", line 17, in execute_cmd
+    _cxt = _fh.read()
+KeyboardInterrupt
+
+2017-03-20 18:58:56,185 __main__ [72] ERROR Traceback (most recent call last):
+  File "agent.py", line 67, in <module>
+    _msg = collect()
+  File "agent.py", line 47, in collect
+    _rt['cpu'] = collect_cpu()
+  File "agent.py", line 28, in collect_cpu
+    _cxt = execute_cmd(_cmd)
+  File "agent.py", line 17, in execute_cmd
+    _cxt = _fh.read()
+KeyboardInterrupt
+
+2017-03-20 18:58:56,337 __main__ [72] ERROR Traceback (most recent call last):
+  File "agent.py", line 67, in <module>
+    _msg = collect()
+  File "agent.py", line 47, in collect
+    _rt['cpu'] = collect_cpu()
+  File "agent.py", line 28, in collect_cpu
+    _cxt = execute_cmd(_cmd)
+  File "agent.py", line 17, in execute_cmd
+    _cxt = _fh.read()
+KeyboardInterrupt
+
+2017-03-20 18:58:56,849 __main__ [68] DEBUG {'ip': '192.168.137.101', 'ram': 93.5000597347776, 'cpu': 0.7999999999999972, 'time': '2017-03-20 18:58:56'}
+2017-03-20 18:58:56,851 requests.packages.urllib3.connectionpool [212] DEBUG Starting new HTTP connection (1): 192.168.137.101
+2017-03-20 18:58:56,917 requests.packages.urllib3.connectionpool [400] DEBUG http://192.168.137.101:9001 "POST /performs/ HTTP/1.1" 200 32
+2017-03-20 18:59:07,449 __main__ [68] DEBUG {'ip': '192.168.137.101', 'ram': 93.74855640954164, 'cpu': 0.7999999999999972, 'time': '2017-03-20 18:59:07'}
+2017-03-20 18:59:07,451 requests.packages.urllib3.connectionpool [212] DEBUG Starting new HTTP connection (1): 192.168.137.101
+2017-03-20 18:59:07,467 requests.packages.urllib3.connectionpool [400] DEBUG http://192.168.137.101:9001 "POST /performs/ HTTP/1.1" 200 32
+2017-03-20 18:59:17,990 __main__ [68] DEBUG {'ip': '192.168.137.101', 'ram': 93.7660786109673, 'cpu': 0.7999999999999972, 'time': '2017-03-20 18:59:17'}
+2017-03-20 18:59:17,992 requests.packages.urllib3.connectionpool [212] DEBUG Starting new HTTP connection (1): 192.168.137.101
+2017-03-20 18:59:18,050 requests.packages.urllib3.connectionpool [400] DEBUG http://192.168.137.101:9001 "POST /performs/ HTTP/1.1" 200 32
+2017-03-20 18:59:28,572 __main__ [68] DEBUG {'ip': '192.168.137.101', 'ram': 93.78200788499065, 'cpu': 0.7999999999999972, 'time': '2017-03-20 18:59:28'}
+2017-03-20 18:59:28,573 requests.packages.urllib3.connectionpool [212] DEBUG Starting new HTTP connection (1): 192.168.137.101
+2017-03-20 18:59:28,661 requests.packages.urllib3.connectionpool [400] DEBUG http://192.168.137.101:9001 "POST /performs/ HTTP/1.1" 200 32
+2017-03-20 18:59:39,184 __main__ [68] DEBUG {'ip': '192.168.137.101', 'ram': 93.79793715901398, 'cpu': 0.7999999999999972, 'time': '2017-03-20 18:59:39'}
+2017-03-20 18:59:39,185 requests.packages.urllib3.connectionpool [212] DEBUG Starting new HTTP connection (1): 192.168.137.101
+2017-03-20 18:59:39,217 requests.packages.urllib3.connectionpool [400] DEBUG http://192.168.137.101:9001 "POST /performs/ HTTP/1.1" 200 32
+2017-03-20 18:59:49,743 __main__ [68] DEBUG {'ip': '192.168.137.101', 'ram': 93.79315837680697, 'cpu': 0.7999999999999972, 'time': '2017-03-20 18:59:49'}
+2017-03-20 18:59:49,747 requests.packages.urllib3.connectionpool [212] DEBUG Starting new HTTP connection (1): 192.168.137.101
+2017-03-20 18:59:49,770 requests.packages.urllib3.connectionpool [400] DEBUG http://192.168.137.101:9001 "POST /performs/ HTTP/1.1" 200 32
+2017-03-20 19:00:00,290 __main__ [68] DEBUG {'ip': '192.168.137.101', 'ram': 93.02377444147983, 'cpu': 0.7999999999999972, 'time': '2017-03-20 19:00:00'}
+2017-03-20 19:00:00,292 requests.packages.urllib3.connectionpool [212] DEBUG Starting new HTTP connection (1): 192.168.137.101
+2017-03-20 19:00:00,326 requests.packages.urllib3.connectionpool [400] DEBUG http://192.168.137.101:9001 "POST /performs/ HTTP/1.1" 200 32
+2017-03-20 19:00:10,857 __main__ [68] DEBUG {'ip': '192.168.137.101', 'ram': 92.92740233363864, 'cpu': 0.7999999999999972, 'time': '2017-03-20 19:00:10'}
+2017-03-20 19:00:10,861 requests.packages.urllib3.connectionpool [212] DEBUG Starting new HTTP connection (1): 192.168.137.101
+2017-03-20 19:00:10,932 requests.packages.urllib3.connectionpool [400] DEBUG http://192.168.137.101:9001 "POST /performs/ HTTP/1.1" 200 32
+2017-03-20 19:00:21,456 __main__ [68] DEBUG {'ip': '192.168.137.101', 'ram': 92.96881844609932, 'cpu': 0.7999999999999972, 'time': '2017-03-20 19:00:21'}
+2017-03-20 19:00:21,458 requests.packages.urllib3.connectionpool [212] DEBUG Starting new HTTP connection (1): 192.168.137.101
+2017-03-20 19:00:21,462 requests.packages.urllib3.connectionpool [400] DEBUG http://192.168.137.101:9001 "POST /performs/ HTTP/1.1" 200 32
+2017-03-20 19:00:31,989 __main__ [68] DEBUG {'ip': '192.168.137.101', 'ram': 92.98554418382382, 'cpu': 0.7999999999999972, 'time': '2017-03-20 19:00:31'}
+2017-03-20 19:00:31,992 requests.packages.urllib3.connectionpool [212] DEBUG Starting new HTTP connection (1): 192.168.137.101
+2017-03-20 19:00:32,020 requests.packages.urllib3.connectionpool [400] DEBUG http://192.168.137.101:9001 "POST /performs/ HTTP/1.1" 200 32
+2017-03-20 19:00:42,543 __main__ [68] DEBUG {'ip': '192.168.137.101', 'ram': 93.00465931265182, 'cpu': 0.7999999999999972, 'time': '2017-03-20 19:00:42'}
+2017-03-20 19:00:42,544 requests.packages.urllib3.connectionpool [212] DEBUG Starting new HTTP connection (1): 192.168.137.101
+2017-03-20 19:00:42,588 requests.packages.urllib3.connectionpool [400] DEBUG http://192.168.137.101:9001 "POST /performs/ HTTP/1.1" 200 32
+2017-03-20 19:00:53,110 __main__ [68] DEBUG {'ip': '192.168.137.101', 'ram': 93.0460754251125, 'cpu': 0.7999999999999972, 'time': '2017-03-20 19:00:53'}
+2017-03-20 19:00:53,113 requests.packages.urllib3.connectionpool [212] DEBUG Starting new HTTP connection (1): 192.168.137.101
+2017-03-20 19:00:53,118 requests.packages.urllib3.connectionpool [400] DEBUG http://192.168.137.101:9001 "POST /performs/ HTTP/1.1" 200 32
+2017-03-20 19:01:03,640 __main__ [68] DEBUG {'ip': '192.168.137.101', 'ram': 93.08908446497551, 'cpu': 0.7999999999999972, 'time': '2017-03-20 19:01:03'}
+2017-03-20 19:01:03,642 requests.packages.urllib3.connectionpool [212] DEBUG Starting new HTTP connection (1): 192.168.137.101
+2017-03-20 19:01:03,687 requests.packages.urllib3.connectionpool [400] DEBUG http://192.168.137.101:9001 "POST /performs/ HTTP/1.1" 200 32
+2017-03-20 19:01:09,104 __main__ [72] ERROR Traceback (most recent call last):
+  File "agent.py", line 70, in <module>
+    time.sleep(10)
+KeyboardInterrupt
+
+2017-03-20 19:01:09,292 __main__ [72] ERROR Traceback (most recent call last):
+  File "agent.py", line 67, in <module>
+    _msg = collect()
+  File "agent.py", line 47, in collect
+    _rt['cpu'] = collect_cpu()
+  File "agent.py", line 28, in collect_cpu
+    _cxt = execute_cmd(_cmd)
+  File "agent.py", line 17, in execute_cmd
+    _cxt = _fh.read()
+KeyboardInterrupt
+
+2017-03-20 19:01:09,434 __main__ [72] ERROR Traceback (most recent call last):
+  File "agent.py", line 67, in <module>
+    _msg = collect()
+  File "agent.py", line 47, in collect
+    _rt['cpu'] = collect_cpu()
+  File "agent.py", line 28, in collect_cpu
+    _cxt = execute_cmd(_cmd)
+  File "agent.py", line 17, in execute_cmd
+    _cxt = _fh.read()
+KeyboardInterrupt
+
+2017-03-20 19:01:09,564 __main__ [72] ERROR Traceback (most recent call last):
+  File "agent.py", line 67, in <module>
+    _msg = collect()
+  File "agent.py", line 47, in collect
+    _rt['cpu'] = collect_cpu()
+  File "agent.py", line 28, in collect_cpu
+    _cxt = execute_cmd(_cmd)
+  File "agent.py", line 17, in execute_cmd
+    _cxt = _fh.read()
+KeyboardInterrupt
+
+2017-03-20 19:01:10,076 __main__ [68] DEBUG {'ip': '192.168.137.101', 'ram': 93.08111982796385, 'cpu': 0.7999999999999972, 'time': '2017-03-20 19:01:10'}
+2017-03-20 19:01:10,078 requests.packages.urllib3.connectionpool [212] DEBUG Starting new HTTP connection (1): 192.168.137.101
+2017-03-20 19:01:10,110 requests.packages.urllib3.connectionpool [400] DEBUG http://192.168.137.101:9001 "POST /performs/ HTTP/1.1" 200 32
+2017-03-20 19:01:20,700 __main__ [68] DEBUG {'ip': '192.168.137.101', 'ram': 92.65341882043725, 'cpu': 0.7999999999999972, 'time': '2017-03-20 19:01:20'}
+2017-03-20 19:01:20,702 requests.packages.urllib3.connectionpool [212] DEBUG Starting new HTTP connection (1): 192.168.137.101
+2017-03-20 19:01:20,715 requests.packages.urllib3.connectionpool [400] DEBUG http://192.168.137.101:9001 "POST /performs/ HTTP/1.1" 200 32
+2017-03-20 19:01:31,240 __main__ [68] DEBUG {'ip': '192.168.137.101', 'ram': 92.4702321691689, 'cpu': 0.7999999999999972, 'time': '2017-03-20 19:01:31'}
+2017-03-20 19:01:31,242 requests.packages.urllib3.connectionpool [212] DEBUG Starting new HTTP connection (1): 192.168.137.101
+2017-03-20 19:01:31,261 requests.packages.urllib3.connectionpool [400] DEBUG http://192.168.137.101:9001 "POST /performs/ HTTP/1.1" 200 32
+2017-03-20 19:01:41,783 __main__ [68] DEBUG {'ip': '192.168.137.101', 'ram': 92.4869579068934, 'cpu': 0.7999999999999972, 'time': '2017-03-20 19:01:41'}
+2017-03-20 19:01:41,784 requests.packages.urllib3.connectionpool [212] DEBUG Starting new HTTP connection (1): 192.168.137.101
+2017-03-20 19:01:41,807 requests.packages.urllib3.connectionpool [400] DEBUG http://192.168.137.101:9001 "POST /performs/ HTTP/1.1" 200 32
