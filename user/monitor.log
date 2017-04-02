@@ -1,0 +1,2 @@
+2017-03-21 01:38:29,253 __main__ [43] INFO send mail to:['zhangqino2@126.com'], titile: CPU&内存告警,  msg:主机192.168.137.101告警,内存连续 3 次超过8%
+2017-04-02 18:50:43,137 __main__ [55] INFO send mail to:['zhangqino2@126.com'], titile: CPU&内存告警,  msg:主机192.168.137.101告警,内存连续 3 次超过8%

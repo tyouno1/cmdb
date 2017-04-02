@@ -8,6 +8,10 @@ import requests
 import json
 import traceback
 
+APP_KEY = '90cf05e93e7e824b93eb12a22f5cbbae'
+APP_SECRET = '94e839465545c03bcb0078e6af42cd5e'
+
+#SERVER_URL = 'http://192.168.137.101:9001/performs/?app_key={app_key}&app_secret={app_secret}'.format(app_key=APP_KEY,app_secret=APP_SECRET)
 SERVER_URL = 'http://192.168.137.101:9001/performs/'
 
 logger = logging.getLogger(__name__)
@@ -51,9 +55,13 @@ def collect():
 
 def send(msg):
   try:
-    _reponse = requests.post(SERVER_URL, data=json.dumps(msg), headers={"Content-Type":"application/json"})
+    _reponse = requests.post(SERVER_URL, data=json.dumps(msg), headers={"Content-Type":"application/json","app_key":APP_KEY, 'app_secret':APP_SECRET})
     if not _reponse.ok:
       logger.error('error send msg %s', _msg)
+    else:
+      _json = _reponse.json()
+      if _json.get('code') != 200:
+        logger.error('error send msg %s , result:%s', _msg, _json)
   except BaseException as e:
     logger.error(traceback.format_exc())
 

@@ -5,7 +5,7 @@ from datetime import datetime
 
 from gconf import SMTP_SERVER_HOST, SMTP_SERVER_PORT, SMTP_USER, SMTP_PWD
 
-def sendmail(to_list, title, content):
+def sendemail(to_list, title, content):
   _server=smtplib.SMTP(SMTP_SERVER_HOST, SMTP_SERVER_PORT)
   _server.set_debuglevel(True)
   _server.ehlo()
@@ -20,5 +20,5 @@ def sendmail(to_list, title, content):
   _server.quit()
 
 if __name__ == '__main__':
-  sendmail(['zhangqino2@126.com'],'告警邮件','cpu内存告警测试')
+  sendemail(['zhangqino2@126.com'],'告警邮件','cpu内存告警测试')
 

@@ -13,6 +13,7 @@ import loganalysis
 #import userdb as user
 import asset
 from models import User, Performs, Command
+import gconf
 
 # 导入app
 # user 模块下的app变量(Flask对象)
@@ -274,8 +275,16 @@ def perform_asset():
 #
 @app.route('/performs/', methods=['POST'])
 def performs():
-  # 获取json数据
+  #header方式请求
+  _app_key =  request.headers.get('app_key','')
+  _app_secret = request.headers.get('app_secret','')
+  #get 方式请求
+  #_app_key = request.args.get('app_key','')
+  #_app_secret = request.args.get('app_secret','')
+  if _app_key != gconf.APP_KEY or _app_secret != gconf.APP_SECRET:
+    return json.dumps({"code":400, "text":"secret error"})
   # Flask > 0.10 request.get_json() else request.json()
+  # 获取json数据
   Performs.add(request.get_json())
   return json.dumps({"code":200, "text":"success"})
 
