@@ -292,11 +292,13 @@ def performs():
 def charts():
   status_legend, status_data = Accesslog2.get_status_distribution() 
   time_status_legend, time_status_xaxis, time_status_data = Accesslog2.get_time_status_stack()
+  _geoCoord, _markLine, _markPoint = get_access_map()
   return render_template('charts.html', status_legend = json.dumps(status_legend),
     status_data = json.dumps(status_data), 
     time_status_legend = json.dumps(time_status_legend),
     time_status_xaxis = json.dumps(time_status_xaxis),
-    time_status_data = json.dumps(time_status_data)) 
+    time_status_data = json.dumps(time_status_data),
+    getCoord=json.dumps(_geoCoord),markLine=json.dumps(_markLine),markPoint=json.dumps(_markPoint)) 
     
 
 if __name__ == '__main__':

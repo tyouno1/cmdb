@@ -281,5 +281,13 @@ class Accesslog2(object):
       
     return _legends, _xaxis, _data
 
+  def get_access_map(cls):
+    _geoCoord = {
+    
+    }
+    _markLine = []
+    _markPoint = []
+    return _geoCoord, _markLine, _markPoint
+
 if __name__ == '__main__':
   pass

@@ -10,7 +10,8 @@ CREATE TABLE `accesslog` (
   `url` varchar(20) NOT NULL,
   `status` int NOT NULL,
   `lat` float NOT NULL,
-  `lng` float NOT NULL
+  `lng` float NOT NULL,
+  `city` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 '''
 def log2db(logfile):
@@ -30,16 +31,20 @@ def log2db(logfile):
       if 'China' != reponse.country.name:
         print 'ip not in china %s' % ip
         continue
+      city = reponse.city.names.get('zh-CN','')
+      if city == '':
+        print "ip city is empty:%s" % ip
+        continue
       lat = reponse.location.latitude 
       lng = reponse.location.longitude
-      rt_list.append((ip, logtime, url, status, lat, lng))
+      rt_list.append((ip, logtime, url, status, lat, lng, city))
     except BaseException as e:
       print 'geo ip not found ip %s' % ip
 
   fhandler.close()
   reader.close()
 
-  _sql = 'insert into accesslog2(logtime, ip , url, status, lat, lng) values (%s,%s,%s,%s,%s,%s)'
+  _sql = 'insert into accesslog2(logtime, ip , url, status, lat, lng, city) values (%s,%s,%s,%s,%s,%s,%s)'
   MySQLConnection.bulker_commit_sql(_sql,rt_list)
 
 if __name__ == '__main__':
