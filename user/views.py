@@ -12,7 +12,7 @@ import loganalysis
 #import user
 #import userdb as user
 import asset
-from models import User, Performs, Command
+from models import User, Performs, Command, Accesslog2
 import gconf
 
 # 导入app
@@ -69,7 +69,6 @@ def login():
 @login_required
 def users():
   user_list=User.get_list()
-  print user_list
   return render_template('users.html', user_list=user_list)
 
 #跳转到新建用户信息输入的页面
@@ -288,5 +287,17 @@ def performs():
   Performs.add(request.get_json())
   return json.dumps({"code":200, "text":"success"})
 
-#if __name__ == '__main__':
-#  app.run(host='0.0.0.0', port=9001,debug=True)
+@app.route('/charts/')
+@login_required
+def charts():
+  status_legend, status_data = Accesslog2.get_status_distribution() 
+  time_status_legend, time_status_xaxis, time_status_data = Accesslog2.get_time_status_stack()
+  return render_template('charts.html', status_legend = json.dumps(status_legend),
+    status_data = json.dumps(status_data), 
+    time_status_legend = json.dumps(time_status_legend),
+    time_status_xaxis = json.dumps(time_status_xaxis),
+    time_status_data = json.dumps(time_status_data)) 
+    
+
+if __name__ == '__main__':
+   app.run(host='0.0.0.0', port=9001,debug=True)

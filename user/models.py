@@ -225,5 +225,61 @@ class Command(object):
       _echos.append(''.join(_outs))
     return '\n'.join(_echos)
 
+class Accesslog2(object):
+  @classmethod
+  def get_status_distribution(cls):
+    _sql = "select status , count(*) from accesslog2 group by status"
+    _rt_cnt , _rt_list = MySQLConnection.execute_sql(_sql)
+    _legend = []
+    _data = []
+    # 使用列表推导式代替for循环
+    #for _status, _cnt in _rt_list:
+    #  _legend.append(status)
+    #  _data.append({"name": _status , "value": _cnt})
+    _legend = [_node[0] for _node in _rt_list ]
+    _data = [dict(zip(("name","value"),_node)) for _node in _rt_list ]
+    return _legends, _data
+
+  @classmethod
+  def get_time_status_stack(cls):
+    _sql = "select DATE_FORMAT(logtime,'%%Y-%%m-%%d %%H:00:00') ltime, status , count(*) from accesslog2 where logtime > %s group by ltime,status"
+    _lasttime = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()) - 12*60*60)
+    _rt_cnt , _rt_list = MySQLConnection.execute_sql(_sql, (_lasttime,))
+    _legends = []
+    _xaxis = []
+    _data = []
+
+    _tmp_dict = {}
+    #[('1:00',200,2),('1:00' , 404, 7),('3:00', 404, 3)]
+    for _ltime, _status, _cnt in _rt_list:
+      #相同的只加入一次
+      if _status not in _legends:
+        _legends.append(_status)
+      
+      #相同的只加入一次
+      if _ltime not in _xaxis:
+        _xaxis.append(_ltime)
+      
+      # 转换成每个状态，每个时间的次数
+      # {200:{'1:00': 2}, 404:{'1:00': 7, '3:00':3}}
+      _tmp_dict.setdefault(_status,{})
+      _tmp_dict[status][_ltime] = _cnt
+
+    # 将数据转换成如下的形式
+    for _status, _stat in _tmp_dict.items():
+      _node = {
+        "name":_status,
+        "type":'bar',
+        "stack": 'time_status_stack',
+        "data": []
+      }
+      # 按照时间将data
+      for _ltime in _xaxis:
+        _cnt = _stat.get(_ltime,0)
+        _node['data'].append(_cnt)
+        _data.append(_node)
+      
+    return _legends, _xaxis, _data
+
 if __name__ == '__main__':
   pass
